@@ -21,9 +21,9 @@
                         </div>
                     </div>
                     <div class="col-md-7 col-12 mb-2">
-                        <form>
+                        <form @submit.prevent="handleSearch">
                             <div class="input-group">
-                                <input type="text" class="form-control border-0 shadow" placeholder="masukkan kata kunci dan enter...">
+                                <input type="text" class="form-control border-0 shadow" v-model="search" placeholder="masukkan kata kunci dan enter...">
                                 <span class="input-group-text border-0 shadow">
                                     <i class="fa fa-search"></i>
                                 </span>
@@ -89,6 +89,16 @@
         Link
     } from '@inertiajs/inertia-vue3';
 
+    //import ref from vue
+    import {
+        ref
+    } from 'vue';
+
+    //import inertia adapter
+    import {
+        Inertia
+    } from '@inertiajs/inertia';
+
     export default {
         //layout
         layout: LayoutAdmin,
@@ -104,6 +114,29 @@
         props: {
             students: Object,
         },
+
+        //inisialisasi composition API
+        setup() {
+
+            //define state search
+            const search = ref('' || (new URL(document.location)).searchParams.get('q'));
+
+            //define method search
+            const handleSearch = () => {
+                Inertia.get('/admin/students', {
+
+                    //send params "q" with value from state "search"
+                    q: search.value,
+                });
+            }
+
+            //return
+            return {
+                search,
+                handleSearch,
+            }
+
+        }
     }
 
 </script>
