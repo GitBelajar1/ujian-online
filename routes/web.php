@@ -23,5 +23,6 @@ Route::prefix('admin')->group(function() {
         
         //route resource students    
         Route::resource('/students', \App\Http\Controllers\Admin\StudentController::class, ['as' => 'admin']);
+ 
     });
 });
